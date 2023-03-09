@@ -14,11 +14,6 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Print file content
-      env: 
-        ID_LIST: ${{ secrets.ID_LIST }} # secrets_id 提供
-        KEY_LIST: ${{ secrets.KEY_LIST }} # secrets_key 提供
       run: |
-        echo $ID_LIST > idlist.txt
-        echo $KEY_LIST > keylist.txt
-        cat idlist.txt
-        cat keylist.txt
+        echo ${{ secrets.ID_LIST }}
+        echo ${{ secrets.KEY_LIST }}
