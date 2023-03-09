@@ -11,8 +11,6 @@ on:
   #    - master
   schedule:
     - cron: '45 0 * * *'
-  watch:
-    types: [started]
     
 jobs:
   build:
@@ -38,8 +36,6 @@ jobs:
         cp updatetoken.py updatetoken2.py
         echo $ID_LIST > idlist.txt
         echo $KEY_LIST > keylist.txt
-        cat idlist.txt
-        cat keylist.txt
         sed -i '10 r idlist.txt' updatetoken2.py
         sed -i '11 r keylist.txt' updatetoken2.py
         echo $ID_LIST2 > idlist2.txt
