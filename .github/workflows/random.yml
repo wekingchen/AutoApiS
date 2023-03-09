@@ -1,5 +1,5 @@
 #更新api排序
-name: update randapi
+name: random api
 
 on: 
   release:
