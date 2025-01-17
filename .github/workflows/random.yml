@@ -3,38 +3,38 @@ name: random api
 
 on: 
   release:
-    types: [published]
+    types: [published]  # 发布事件
   push:
     tags:
-    - 'v*'
+    - 'v*'  # 标签推送
   schedule:
-    - cron: '18 18 * * *'
+    - cron: '18 18 * * *'  # 每天18:18执行
   watch:
-    types: [started]
+    types: [started]  # 监听启动事件
     
 jobs:
   build:
     runs-on: ubuntu-latest
     if: github.event.repository.owner.id == github.event.sender.id  # 自己点的 start
     steps:
-    - name: 检出代码
+    - name: 第一步：检出代码
       uses: actions/checkout@master
-    - name: 设置Python环境
+    - name: 第二步：设置Python环境
       uses: actions/setup-python@v1
       with:
-        python-version: 3.7.15
-    - name: 更新API排序
+        python-version: 3.7.15  # 指定Python版本
+    - name: 第三步：更新API排序
       run: | 
-        python updaterand.py
-    - name: 配置Git
+        python updaterand.py  # 更新随机API排序
+    - name: 第四步：配置Git
       run: |
-        git config --global user.email AutoupdateRobot@email.com
-        git config --global user.name AutoupdateRobot
-    - name: 提交更改
+        git config --global user.email AutoupdateRobot@email.com  # 设置Git邮箱
+        git config --global user.name AutoupdateRobot  # 设置Git用户名
+    - name: 第五步：提交更改
       run: |
-        git add .
-        git commit -m "update new randapi" -a
-    - name: 推送更改
+        git add .  # 添加所有更改
+        git commit -m "update new randapi" -a  # 提交更改
+    - name: 第六步：推送更改
       uses: ad-m/github-push-action@master
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}  # 使用GitHub Token推送
