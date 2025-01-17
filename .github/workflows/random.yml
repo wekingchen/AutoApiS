@@ -1,3 +1,4 @@
+# 随机API更新
 name: random api
 
 on: 
@@ -12,32 +13,28 @@ on:
     types: [started]
     
 jobs:
-  job1:
+  build:
     runs-on: ubuntu-latest
-    if: github.event.repository.owner.id == github.event.sender.id
-    env:
-      A: AutoupdateRobot@email.com
-      B: AutoupdateRobot
-      C: 3.7.15
+    if: github.event.repository.owner.id == github.event.sender.id  # 自己点的 start
     steps:
-    - name: step1
+    - name: 检出代码
       uses: actions/checkout@master
-    - name: step2
+    - name: 设置Python环境
       uses: actions/setup-python@v1
       with:
-        python-version: ${{ env.C }}
-    - name: step3
-      run: |
+        python-version: 3.7.15
+    - name: 更新API排序
+      run: | 
         python updaterand.py
-    - name: step4
+    - name: 配置Git
       run: |
-        git config --global user.email ${{ env.A }}
-        git config --global user.name ${{ env.B }}
-    - name: step5
+        git config --global user.email AutoupdateRobot@email.com
+        git config --global user.name AutoupdateRobot
+    - name: 提交更改
       run: |
         git add .
-        git commit -m "commit"
-    - name: step6
+        git commit -m "update new randapi" -a
+    - name: 推送更改
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
