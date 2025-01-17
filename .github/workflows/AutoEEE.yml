@@ -8,39 +8,39 @@ on:
     tags:
     - 'v*'
   schedule:
-    - cron: '0 1,5,8 * * 1-5'
+    - cron: '0 1,5,8 * * 1-5'  # 定时任务
   watch:
-    types: [started]
+    types: [started]  # 监听启动事件
    
 jobs:
   build:
     runs-on: ubuntu-latest
     if: github.event.repository.owner.id == github.event.sender.id  # 自己点的 start
     steps:
-    - name: Checkout Code
+    - name: 第一步：检出代码
       uses: actions/checkout@master
-    - name: Setup Python Environment
+    - name: 第二步：设置Python环境
       uses: actions/setup-python@v1
       with:
-        python-version: 3.7.15
-    - name: Install Dependencies
+        python-version: 3.7.15  # 指定Python版本
+    - name: 第三步：安装依赖
       run: |
-        pip install requests
-    - name: Load Secrets
+        pip install requests  # 安装requests库
+    - name: 第四步：读取配置
       env: 
-        SECRET_A: ${{ secrets.ID_LIST }} # secrets_id 提供
-        SECRET_B: ${{ secrets.KEY_LIST }} # secrets_key 提供
-        SECRET_C: ${{ secrets.ID_LIST2 }} # secrets_id 提供
-        SECRET_D: ${{ secrets.KEY_LIST2 }} # secrets_key 提供
+        ID_LIST: ${{ secrets.ID_LIST }}  # 读取ID列表
+        KEY_LIST: ${{ secrets.KEY_LIST }}  # 读取KEY列表
+        ID_LIST2: ${{ secrets.ID_LIST2 }}  # 读取第二个ID列表
+        KEY_LIST2: ${{ secrets.KEY_LIST2 }}  # 读取第二个KEY列表
       run: | 
-        echo $SECRET_A > temp_a.txt
-        echo $SECRET_B > temp_b.txt
-        sed -i '10 r temp_a.txt' testapi.py
-        sed -i '11 r temp_b.txt' testapi.py
-        echo $SECRET_C > temp_c.txt
-        echo $SECRET_D > temp_d.txt
-        sed -i '12 r temp_c.txt' testapi.py
-        sed -i '13 r temp_d.txt' testapi.py
-    - name: Execute Script
+        echo $ID_LIST > idlist.txt  # 写入ID列表到文件
+        echo $KEY_LIST > keylist.txt  # 写入KEY列表到文件
+        sed -i '10 r idlist.txt' testapi.py  # 插入ID列表到脚本
+        sed -i '11 r keylist.txt' testapi.py  # 插入KEY列表到脚本
+        echo $ID_LIST2 > idlist2.txt  # 写入第二个ID列表到文件
+        echo $KEY_LIST2 > keylist2.txt  # 写入第二个KEY列表到文件
+        sed -i '12 r idlist2.txt' testapi.py  # 插入第二个ID列表到脚本
+        sed -i '13 r keylist2.txt' testapi.py  # 插入第二个KEY列表到脚本
+    - name: 第五步：测试API
       run: | 
-        python testapi.py
+        python testapi.py  # 调用测试脚本
