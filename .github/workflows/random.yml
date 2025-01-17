@@ -20,9 +20,9 @@ jobs:
     - name: 第一步：检出代码
       uses: actions/checkout@master
     - name: 第二步：设置Python环境
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v5
       with:
-        python-version: 3.7.15  # 指定Python版本
+        python-version: '3.13'  # 指定Python版本
     - name: 第三步：更新API排序
       run: | 
         python updaterand.py  # 更新随机API排序
